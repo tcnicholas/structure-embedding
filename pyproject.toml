@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "structure-embedding"
-version = "0.0.3"
+version = "0.0.2"
 description = "Simplifying workflows for generating embeddings of structures."
 readme = "README.md"
 authors = [{ name = "Thomas Nicholas", email = "tcnicholas@me.com" }]
@@ -19,7 +19,7 @@ dependencies = [
     "scipy>=1.15.2",
     "umap-learn>=0.5.7",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 
 [project.optional-dependencies]
 publish = ["build", "twine"]
