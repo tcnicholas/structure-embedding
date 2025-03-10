@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "structure-embedding"
-version = "0.0.6"
+version = "0.0.7"
 description = "Simplifying workflows for generating embeddings of structures."
 readme = "README.md"
 authors = [{ name = "Thomas Nicholas", email = "tcnicholas@me.com" }]
@@ -25,7 +25,7 @@ requires-python = ">=3.9"
 publish = ["build", "twine"]
 
 [tool.bumpver]
-current_version = "0.0.6"
+current_version = "0.0.7"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump {old_version} -> {new_version}"
 commit = true
