@@ -84,7 +84,14 @@ class Dataset:
 def pad_features(subset: Dataset, target_features: int) -> None:
     """
     Pad the given subset's raw data with zeros so that it has the desired number
-    of features.
+    of features. Does so in-place.
+
+    Parameters
+    ----------
+    subset
+        The dataset to pad.
+    target_features
+        The desired number of features in the dataset.
     """
 
     current_features = subset.feature_size

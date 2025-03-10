@@ -11,7 +11,7 @@ from structure_embedding.data import Dataset, get_indices_and_name, pad_features
 from structure_embedding.utils import closest_key_error
 
 
-class StructureEmbedding(ABC):
+class Transformer(ABC):
     """
     Base class to encapsulate the embedding of topology descriptors using
     a dimensionality reduction algorithm. Subclasses must implement the
@@ -53,6 +53,19 @@ class StructureEmbedding(ABC):
     ) -> None:
         """
         Add training data to the model.
+
+        Parameters
+        ----------
+        data
+            The training data to add.
+        name
+            The name of the training subset.
+        smearing
+            The standard deviation of the Gaussian smearing applied to the data.
+        info
+            Additional information to store with the dataset.
+        properties
+            Additional properties to store with the dataset.
         """
 
         self._add_subset(
@@ -76,6 +89,19 @@ class StructureEmbedding(ABC):
     ) -> None:
         """
         Add projection data to the model.
+
+        Parameters
+        ----------
+        data
+            The projection data to add.
+        name
+            The name of the projection subset.
+        smearing
+            The standard deviation of the Gaussian smearing applied to the data.
+        info
+            Additional information to store with the dataset.
+        properties
+            Additional properties to store with the dataset
         """
 
         self._add_subset(
@@ -91,6 +117,11 @@ class StructureEmbedding(ABC):
     def pad_all(self, target_features: int) -> None:
         """
         Pad all data subsets to have the same number of features.
+
+        Parameters
+        ----------
+        target_features
+            The number of features to pad all subsets to.
         """
 
         for subset in self.training_data + self.projection_data:

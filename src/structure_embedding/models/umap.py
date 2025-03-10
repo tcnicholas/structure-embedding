@@ -6,7 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import umap
 
-from structure_embedding import StructureEmbedding
+from structure_embedding import Transformer
 
 _UMAP_DEFAULTS = {
     "n_neighbors": 50,
@@ -16,9 +16,9 @@ _UMAP_DEFAULTS = {
     "random_state": 42,
 }
 
-class UMAPStructureEmbedding(StructureEmbedding):
+class UMAPTransformer(Transformer):
     """
-    A implementation of StructureEmbedding using UMAP.
+    A implementation of Transformer using UMAP.
     """
 
     def __init__(self, **kwargs):
@@ -48,4 +48,5 @@ class UMAPStructureEmbedding(StructureEmbedding):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", FutureWarning)
             projections = self._embedder.transform(X)
+
         return projections
