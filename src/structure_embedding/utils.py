@@ -37,6 +37,11 @@ def uniform_repr(
     Returns
     -------
     The string representation of the object.
+
+    Notes
+    -----
+    - Shamelessly copied from the `uniform_repr` function in the `graph-pes` 
+    package (https://github.com/jla-gardner/graph-pes). Go check it out!
     """
 
     def format_value(value: Any) -> str:
