@@ -4,6 +4,8 @@
 reduction for materials-based feature vectors by seamlessly managing data 
 subsets for efficient analysis.
 
+## Implemented algorithms
+- UMAP
 
 ## Quickstart
 
