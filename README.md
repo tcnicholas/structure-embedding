@@ -1,4 +1,4 @@
-
+## Structure embedding
 
 `structure-embedding` is a lightweight package that streamlines dimensionality 
 reduction for materials-based feature vectors by seamlessly managing data 
