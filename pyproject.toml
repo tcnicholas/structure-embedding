@@ -1,13 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "structure-embedding"
-version = "0.1.0"
+version = "0.0.1"
 description = "Simplifying workflows for generating embeddings of structures."
 readme = "README.md"
-requires-python = ">=3.12"
+authors = [{ name = "Thomas Nicholas", email = "tcnicholas@me.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
 dependencies = [
     "scipy>=1.15.2",
     "umap-learn>=0.5.7",
 ]
+requires-python = ">=3.12"
+
+[project.optional-dependencies]
+publish = ["build", "twine"]
+
+[tool.bumpver]
+current_version = "0.0.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump {old_version} -> {new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
+"src/structure_embedding/__init__.py" = ["{version}"]
 
 [tool.ruff]
 line-length = 80

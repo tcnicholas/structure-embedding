@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from difflib import get_close_matches
-from typing import Any
+from typing import Any, Sequence
 
 
 def uniform_repr(
@@ -15,6 +15,25 @@ def uniform_repr(
     """
     Generates a uniform string representation of an object, supporting both
     positional and keyword arguments.
+
+    Parameters
+    ----------
+    object_name
+        The name of the object to represent.
+    positional_args
+        The positional arguments to represent.
+    max_width
+        The maximum width of the string representation before wrapping.
+    stringify
+        Whether to wrap string values in quotes.
+    indent_size
+        The number of spaces to use for indentation.
+    keyword_args
+        The keyword arguments to represent.
+
+    Returns
+    -------
+    The string representation of the object.
     """
 
     def format_value(value: Any) -> str:
@@ -51,9 +70,23 @@ def uniform_repr(
     return multi_line_repr
 
 
-def closest_key_error(key, keys):
+def closest_key_error(
+    key: str,
+    keys: Sequence[str],
+) -> None:
     """
     Raise a KeyError suggesting the closest key if available.
+
+    Parameters
+    ----------
+    key
+        The key that was not found.
+    keys
+        The keys to search for a close.
+
+    Raises
+    ------
+    If no close key is found, raise a KeyError with a suggestion.
     """
     matches = get_close_matches(key, keys)
     if matches:
