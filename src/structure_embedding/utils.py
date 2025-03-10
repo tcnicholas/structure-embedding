@@ -3,6 +3,9 @@ from __future__ import annotations
 from difflib import get_close_matches
 from typing import Any, Sequence
 
+import numpy as np
+import numpy.typing as npt
+
 
 def uniform_repr(
     object_name: str,
@@ -93,3 +96,34 @@ def closest_key_error(
         raise KeyError(f"Key '{key}' not found. Did you mean: {matches[0]}?")
     else:
         raise KeyError(f"Key '{key}' not found.")
+    
+
+def rotate_data(
+    data: npt.NDArray[np.floating],
+    degrees: float = 90.0
+) -> npt.NDArray[np.floating]:
+    """
+    Rotate 2D points by a given number of degrees counter-clockwise.
+    
+    Parameters
+    ----------
+    data
+        2D array of points to rotate.
+    degrees
+        Number of degrees to rotate the points counter-clockwise.
+
+    Returns
+    -------
+    The rotated points.
+    """
+
+    radians = np.deg2rad(degrees)
+    cos_angle = np.cos(radians)
+    sin_angle = np.sin(radians)
+
+    rotation_matrix = np.array([
+        [cos_angle, -sin_angle],
+        [sin_angle,  cos_angle]
+    ])
+
+    return data @ rotation_matrix.T
