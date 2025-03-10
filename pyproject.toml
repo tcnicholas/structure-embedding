@@ -1,0 +1,38 @@
+[project]
+name = "structure-embedding"
+version = "0.1.0"
+description = "Simplifying workflows for generating embeddings of structures."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "scipy>=1.15.2",
+    "umap-learn>=0.5.7",
+]
+
+[tool.ruff]
+line-length = 80
+indent-width = 4
+target-version = "py38"
+extend-include = ["*.ipynb", "*.pyi", "*.toml"]
+
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I"]
+ignore = ["SIM300", "E402", "E703", "F722", "UP037", "F821", "B018", "E741"]
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[dependency-groups]
+dev = [
+    "notebook>=7.3.2",
+    "ruff>=0.9.7",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
