@@ -22,6 +22,7 @@ class UMAPStructureEmbedding(StructureEmbedding):
     """
 
     def __init__(self, **kwargs):
+        """ Initialise the UMAP model with the specified keyword arguments. """
         umap_kwargs = _UMAP_DEFAULTS.copy() | kwargs
         self._embedder = umap.UMAP(**umap_kwargs)
         super().__init__(**umap_kwargs)
@@ -30,6 +31,7 @@ class UMAPStructureEmbedding(StructureEmbedding):
         self, 
         X: npt.NDArray[np.floating]
     ) -> npt.NDArray[np.floating]:
+        """ Fit the UMAP model on X and return the embedded points. """
         
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", FutureWarning)
@@ -41,6 +43,7 @@ class UMAPStructureEmbedding(StructureEmbedding):
         self, 
         X: npt.NDArray[np.floating]
     ) -> npt.NDArray[np.floating]:
+        """ Transform new data X into the UMAP embedding space. """
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", FutureWarning)
