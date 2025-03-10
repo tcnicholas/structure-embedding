@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.11
-      - name: Install graph-pes with publish dependencies
+      - name: Install structure-embedding with publish dependencies
         run: pip install ".[publish]"
       - name: Build
         run: python -m build
