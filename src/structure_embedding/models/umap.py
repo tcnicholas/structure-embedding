@@ -6,7 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import umap
 
-from structure_embedding.model import StructureEmbedding
+from structure_embedding import StructureEmbedding
 
 _UMAP_DEFAULTS = {
     "n_neighbors": 50,
