@@ -115,8 +115,10 @@ class StructureEmbedding(ABC):
         """
         Get the projection data array by concatenating all projection subsets.
         """
+
         if not self.projection_data:
             raise ValueError("No projection data has been added.")
+
         return np.concatenate(
             [subset.raw for subset in self.projection_data],
             axis=0
@@ -141,7 +143,9 @@ class StructureEmbedding(ABC):
         -------
         The embedding of the training data.
         """
+
         padd_all_to = 0 if padd_all_to is None else padd_all_to
+
         if (
             self.fitted and 
             self.global_padding is not None and 
@@ -178,8 +182,10 @@ class StructureEmbedding(ABC):
         -------
         The transformed projection data.
         """
+
         if not self.fitted:
             raise ValueError("Model has not been fitted.")
+
         X = self.full_projection_data
         projections = self.transform(X)
 
@@ -194,16 +200,20 @@ class StructureEmbedding(ABC):
         """
         Get a training subset by name.
         """
+
         if name not in self._training_lookup:
             closest_key_error(name, self._training_lookup.keys())
+
         return self.training_data[self._training_lookup[name]]
 
     def get_projection_subset(self, name: str) -> Dataset:
         """
         Get a projection subset by name.
         """
+
         if name not in self._projection_lookup:
             closest_key_error(name, self._projection_lookup.keys())
+
         return self.projection_data[self._projection_lookup[name]]
 
     def filter_by(
@@ -225,6 +235,7 @@ class StructureEmbedding(ABC):
         -------
         A generator yielding all subsets for which predicate(subset) is True.
         """
+
         if dataset_type == "training":
             data = self.training_data
         elif dataset_type == "projected":
@@ -233,6 +244,7 @@ class StructureEmbedding(ABC):
             raise ValueError(
                 "dataset_type must be either 'training' or 'projected'"
             )
+
         return (subset for subset in data if predicate(subset))
 
     def _add_subset(
@@ -250,6 +262,7 @@ class StructureEmbedding(ABC):
         Add a new data subset to the given container and update the 
         corresponding lookup.
         """
+
         if reset_fitted:
             self.fitted = False
 

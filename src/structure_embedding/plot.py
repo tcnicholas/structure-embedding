@@ -44,6 +44,7 @@ def white_to_colour_cmap(base_color: str) -> LinearSegmentedColormap:
 
     base_rgba = mcolors.to_rgba(base_color, alpha=1)
     transparent_white = (1, 1, 1, 0.)
+
     return mcolors.LinearSegmentedColormap.from_list(
         'white_to_colour_cmap',
         [transparent_white, base_rgba]

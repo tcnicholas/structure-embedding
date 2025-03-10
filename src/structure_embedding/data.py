@@ -86,6 +86,7 @@ def pad_features(subset: Dataset, target_features: int) -> None:
     Pad the given subset's raw data with zeros so that it has the desired number
     of features.
     """
+
     current_features = subset.feature_size
     if current_features < target_features:
         padding = np.zeros((subset.n_points, target_features-current_features))
@@ -111,10 +112,14 @@ def get_indices_and_name(
     candidate_name = (
         name if name is not None else f"{default_prefix}_{len(collection)}"
     )
+
     existing_names = {item.name for item in collection}
+
     if candidate_name in existing_names:
+
         counter = 1
         new_candidate_name = f"{candidate_name}-{counter}"
+
         while new_candidate_name in existing_names:
             counter += 1
             new_candidate_name = f"{candidate_name}-{counter}"
@@ -124,6 +129,7 @@ def get_indices_and_name(
             f"'{new_candidate_name}' instead.",
             stacklevel=2
         )
+
         candidate_name = new_candidate_name
 
     return starting_ix, ending_ix, candidate_name

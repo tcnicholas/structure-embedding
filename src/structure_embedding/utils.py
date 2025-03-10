@@ -48,29 +48,31 @@ def uniform_repr(
         """
         Converts a value to a string, optionally wrapping strings in quotes.
         """
+    
         if isinstance(value, str) and stringify:
             return f'"{value}"'
+
         return str(value)
 
-    # Format positional and keyword arguments
+    # format positional and keyword arguments
     components = [format_value(arg) for arg in positional_args]
     components += [
         f"{key}={format_value(value)}" 
         for key, value in keyword_args.items()
     ]
 
-    # Construct a single-line representation
+    # construct a single-line representation
     single_line_repr = f"{object_name}({', '.join(components)})"
     if len(single_line_repr) < max_width and "\n" not in single_line_repr:
         return single_line_repr
 
-    # If exceeding max width, format as a multi-line representation.
+    # if exceeding max width, format as a multi-line representation.
     def indent(text: str) -> str:
         """Indents text with a specified number of spaces."""
         indentation = " " * indent_size
         return "\n".join(f"{indentation}{line}" for line in text.split("\n"))
 
-    # Build multi-line representation
+    # build multi-line representation
     multi_line_repr = f"{object_name}(\n"
     multi_line_repr += ",\n".join(indent(component) for component in components)
     multi_line_repr += "\n)"
@@ -96,7 +98,9 @@ def closest_key_error(
     ------
     If no close key is found, raise a KeyError with a suggestion.
     """
+
     matches = get_close_matches(key, keys)
+
     if matches:
         raise KeyError(f"Key '{key}' not found. Did you mean: {matches[0]}?")
     else:
