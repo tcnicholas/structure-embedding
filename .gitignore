@@ -12,3 +12,4 @@ wheels/
 
 # My files.
 **/.DS_Store
+.local
