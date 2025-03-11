@@ -40,7 +40,7 @@ def uniform_repr(
 
     Notes
     -----
-    - Shamelessly copied from the `uniform_repr` function in the `graph-pes` 
+    - Shamelessly copied from the `uniform_repr` function in the `graph-pes`
     package (https://github.com/jla-gardner/graph-pes). Go check it out!
     """
 
@@ -48,7 +48,7 @@ def uniform_repr(
         """
         Converts a value to a string, optionally wrapping strings in quotes.
         """
-    
+
         if isinstance(value, str) and stringify:
             return f'"{value}"'
 
@@ -57,8 +57,7 @@ def uniform_repr(
     # format positional and keyword arguments
     components = [format_value(arg) for arg in positional_args]
     components += [
-        f"{key}={format_value(value)}" 
-        for key, value in keyword_args.items()
+        f"{key}={format_value(value)}" for key, value in keyword_args.items()
     ]
 
     # construct a single-line representation
@@ -105,15 +104,14 @@ def closest_key_error(
         raise KeyError(f"Key '{key}' not found. Did you mean: {matches[0]}?")
     else:
         raise KeyError(f"Key '{key}' not found.")
-    
+
 
 def rotate_data(
-    data: npt.NDArray[np.floating],
-    degrees: float = 90.0
+    data: npt.NDArray[np.floating], degrees: float = 90.0
 ) -> npt.NDArray[np.floating]:
     """
     Rotate 2D points by a given number of degrees counter-clockwise.
-    
+
     Parameters
     ----------
     data
@@ -130,9 +128,8 @@ def rotate_data(
     cos_angle = np.cos(radians)
     sin_angle = np.sin(radians)
 
-    rotation_matrix = np.array([
-        [cos_angle, -sin_angle],
-        [sin_angle,  cos_angle]
-    ])
+    rotation_matrix = np.array(
+        [[cos_angle, -sin_angle], [sin_angle, cos_angle]]
+    )
 
     return data @ rotation_matrix.T

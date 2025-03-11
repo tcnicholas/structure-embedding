@@ -15,6 +15,7 @@ class Dataset:
     """
     Store (a subset of) training data that will be used to fit the UMAP model.
     """
+
     name: str
     """ The name of the data subset. """
 
@@ -41,45 +42,39 @@ class Dataset:
 
     @property
     def n_points(self) -> int:
-        """ The number of data points in the subset. """
+        """The number of data points in the subset."""
 
         return self.raw.shape[0]
-    
+
     @property
     def feature_size(self) -> int:
-        """ The number of features in the data. """
+        """The number of features in the data."""
 
         return self.raw.shape[1]
 
     def __repr__(self) -> str:
-        """ Generate a string representation of the dataset. """
+        """Generate a string representation of the dataset."""
 
         info = {
             "name": f'"{self.name}"',
             "n_points": self.n_points,
             "fitted": self.dim_red_data is not None,
             "info": uniform_repr(
-                "", 
-                **self.info, 
-                indent_size=4, 
-                stringify=True
+                "", **self.info, indent_size=4, stringify=True
             ),
             "properties": uniform_repr(
-                "", 
-                **self.properties, 
-                indent_size=4, 
-                stringify=True
-            )
+                "", **self.properties, indent_size=4, stringify=True
+            ),
         }
 
         if self.smearing is not None:
             info["smearing"] = np.round(self.smearing, 2)
 
         return uniform_repr("Dataset", **info, indent_size=4, stringify=False)
-    
+
 
 ########## HELPER FUNCTIONS ##########
-    
+
 
 def pad_features(subset: Dataset, target_features: int) -> None:
     """
@@ -96,7 +91,9 @@ def pad_features(subset: Dataset, target_features: int) -> None:
 
     current_features = subset.feature_size
     if current_features < target_features:
-        padding = np.zeros((subset.n_points, target_features-current_features))
+        padding = np.zeros(
+            (subset.n_points, target_features - current_features)
+        )
         subset.raw = np.concatenate([subset.raw, padding], axis=1)
 
 
@@ -104,11 +101,26 @@ def get_indices_and_name(
     data: npt.NDArray[np.floating],
     collection: list[Dataset],
     name: str | None = None,
-    default_prefix: str = "subset"
+    default_prefix: str = "subset",
 ) -> tuple[int, int, str]:
     """
-    Compute the starting and ending indices for the new data subset, and 
+    Compute the starting and ending indices for the new data subset, and
     determine a unique name for it.
+
+    Parameters
+    ----------
+    data
+        The data to add to the collection.
+    collection
+        The collection of datasets to which the new data will be added.
+    name
+        The name of the new dataset. If `None`, a name will be generated.
+    default_prefix
+        The default prefix to use when generating a name for the dataset.
+
+    Returns
+    -------
+    The starting index, ending index, and name of the new dataset.
     """
 
     current_length = (collection[-1].ending_ix + 1) if collection else 0
@@ -123,7 +135,6 @@ def get_indices_and_name(
     existing_names = {item.name for item in collection}
 
     if candidate_name in existing_names:
-
         counter = 1
         new_candidate_name = f"{candidate_name}-{counter}"
 
@@ -134,7 +145,7 @@ def get_indices_and_name(
         warnings.warn(
             f"Name '{candidate_name}' already exists in the dataset. Using "
             f"'{new_candidate_name}' instead.",
-            stacklevel=2
+            stacklevel=2,
         )
 
         candidate_name = new_candidate_name

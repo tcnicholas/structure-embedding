@@ -10,21 +10,21 @@ from scipy.stats import gaussian_kde
 
 def map_axis(ax: plt.Axes) -> None:
     """
-    Create a blank plot with no spines or ticks. 
-    
+    Create a blank plot with no spines or ticks.
+
     Parameters
     ----------
     ax
         The axis to modify.
     """
 
-    for loc in ['top', 'right', 'left', 'bottom']:
+    for loc in ["top", "right", "left", "bottom"]:
         ax.spines[loc].set_visible(False)
 
-    for axis in ['x', 'y']:
+    for axis in ["x", "y"]:
         getattr(ax, f"{axis}axis").set_ticks([])
 
-    ax.set_aspect('equal')
+    ax.set_aspect("equal")
 
 
 def white_to_colour_cmap(base_color: str) -> LinearSegmentedColormap:
@@ -43,11 +43,10 @@ def white_to_colour_cmap(base_color: str) -> LinearSegmentedColormap:
     """
 
     base_rgba = mcolors.to_rgba(base_color, alpha=1)
-    transparent_white = (1, 1, 1, 0.)
+    transparent_white = (1, 1, 1, 0.0)
 
     return mcolors.LinearSegmentedColormap.from_list(
-        'white_to_colour_cmap',
-        [transparent_white, base_rgba]
+        "white_to_colour_cmap", [transparent_white, base_rgba]
     )
 
 
@@ -77,19 +76,19 @@ def plot_density_2d(
 
     if points.shape[0] < 2:
         raise ValueError("At least two points are required.")
-    
+
     if ax is None:
         ax = plt.gca()
 
     x, y = points[:, 0], points[:, 1]
     kde = gaussian_kde(np.vstack([x, y]))
 
-    xi, yi = np.mgrid[x.min():x.max():100j, y.min():y.max():100j]
+    xi, yi = np.mgrid[x.min() : x.max() : 100j, y.min() : y.max() : 100j]
     zi = kde(np.vstack([xi.flatten(), yi.flatten()])).reshape(xi.shape)
 
     xi, yi = np.mgrid[
-        x.min()-0.5:x.max()+0.5:grid_resolution*1j, 
-        y.min()-0.5:y.max()+0.5:grid_resolution*1j
+        x.min() - 0.5 : x.max() + 0.5 : grid_resolution * 1j,
+        y.min() - 0.5 : y.max() + 0.5 : grid_resolution * 1j,
     ]
     zi = kde(np.vstack([xi.flatten(), yi.flatten()])).reshape(xi.shape)
 

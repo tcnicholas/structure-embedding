@@ -15,8 +15,8 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "matplotlib>=3.10.1",
-    "scipy>=1.15.2",
+    "matplotlib>=3.9.4",
+    "scipy>=1.13.1",
     "umap-learn>=0.5.7",
 ]
 requires-python = ">=3.9"

@@ -29,18 +29,16 @@ class Transformer(ABC):
 
     @abstractmethod
     def fit_transform(
-        self, 
-        X: npt.NDArray[np.floating]
+        self, X: npt.NDArray[np.floating]
     ) -> npt.NDArray[np.floating]:
-        """ Fit the embedding algorithm on X and return the embedded points. """
+        """Fit the embedding algorithm on X and return the embedded points."""
         pass
 
     @abstractmethod
     def transform(
-        self, 
-        X: npt.NDArray[np.floating]
+        self, X: npt.NDArray[np.floating]
     ) -> npt.NDArray[np.floating]:
-        """ Transform new data X into the embedding space. """
+        """Transform new data X into the embedding space."""
         pass
 
     def add_training_data(
@@ -49,7 +47,7 @@ class Transformer(ABC):
         name: str | None = None,
         smearing: float | None = None,
         info: dict[str, Any] | None = None,
-        properties: dict[str, Any] | None = None
+        properties: dict[str, Any] | None = None,
     ) -> None:
         """
         Add training data to the model.
@@ -76,7 +74,7 @@ class Transformer(ABC):
             smearing=smearing,
             info=info,
             properties=properties,
-            reset_fitted=True  # Reset the fitted flag for training data.
+            reset_fitted=True,  # Reset the fitted flag for training data.
         )
 
     def add_projection_data(
@@ -85,7 +83,7 @@ class Transformer(ABC):
         name: str | None = None,
         smearing: float | None = None,
         info: dict[str, Any] | None = None,
-        properties: dict[str, Any] | None = None
+        properties: dict[str, Any] | None = None,
     ) -> None:
         """
         Add projection data to the model.
@@ -111,7 +109,7 @@ class Transformer(ABC):
             name=name,
             smearing=smearing,
             info=info,
-            properties=properties
+            properties=properties,
         )
 
     def pad_all(self, target_features: int) -> None:
@@ -137,8 +135,7 @@ class Transformer(ABC):
             raise ValueError("No training data has been added.")
 
         return np.concatenate(
-            [subset.raw for subset in self.training_data],
-            axis=0
+            [subset.raw for subset in self.training_data], axis=0
         )
 
     @property
@@ -151,14 +148,11 @@ class Transformer(ABC):
             raise ValueError("No projection data has been added.")
 
         return np.concatenate(
-            [subset.raw for subset in self.projection_data],
-            axis=0
+            [subset.raw for subset in self.projection_data], axis=0
         )
 
     def get_embedding(
-        self,
-        padd_all_to: int | None = None,
-        and_projections: bool = True
+        self, padd_all_to: int | None = None, and_projections: bool = True
     ) -> npt.NDArray[np.floating]:
         """
         Fit the embedding algorithm on training data and return the embedding.
@@ -178,13 +172,13 @@ class Transformer(ABC):
         padd_all_to = 0 if padd_all_to is None else padd_all_to
 
         if (
-            self.fitted and 
-            self.global_padding is not None and 
-            self.global_padding >= padd_all_to
+            self.fitted
+            and self.global_padding is not None
+            and self.global_padding >= padd_all_to
         ):
-            return np.vstack([
-                subset.dim_red_data for subset in self.training_data
-            ])
+            return np.vstack(
+                [subset.dim_red_data for subset in self.training_data]
+            )
 
         if padd_all_to:
             self.pad_all(padd_all_to)
@@ -197,7 +191,7 @@ class Transformer(ABC):
 
         for subset in self.training_data:
             subset.dim_red_data = embedding[
-                subset.starting_ix:subset.ending_ix + 1
+                subset.starting_ix : subset.ending_ix + 1
             ]
 
         if and_projections:
@@ -222,7 +216,7 @@ class Transformer(ABC):
 
         for subset in self.projection_data:
             subset.dim_red_data = projections[
-                subset.starting_ix:subset.ending_ix + 1
+                subset.starting_ix : subset.ending_ix + 1
             ]
 
         return projections
@@ -247,11 +241,7 @@ class Transformer(ABC):
 
         return self.projection_data[self._projection_lookup[name]]
 
-    def filter_by(
-        self, 
-        predicate: callable,
-        dataset_type: str = "training"
-    ):
+    def filter_by(self, predicate: callable, dataset_type: str = "training"):
         """
         Filter datasets based on a predicate function.
 
@@ -290,7 +280,7 @@ class Transformer(ABC):
         reset_fitted: bool = False,
     ) -> None:
         """
-        Add a new data subset to the given container and update the 
+        Add a new data subset to the given container and update the
         corresponding lookup.
         """
 
@@ -319,7 +309,7 @@ class Transformer(ABC):
             dim_red_data=None,
             smearing=smearing,
             info=info,
-            properties=properties
+            properties=properties,
         )
 
         container.append(new_subset)
@@ -327,17 +317,16 @@ class Transformer(ABC):
 
     def _sanity_check_data(self) -> None:
         """
-        Check that training data has been added and that all subsets have the 
+        Check that training data has been added and that all subsets have the
         same number of features. Apply smearing if specified.
         """
 
         if not self.training_data:
             raise ValueError("No training data has been added.")
-        
-        if len({subset.feature_size for subset in self.training_data}) != 1:
 
+        if len({subset.feature_size for subset in self.training_data}) != 1:
             max_features = max(
-                subset.feature_size 
+                subset.feature_size
                 for subset in self.training_data + self.projection_data
             )
 
@@ -352,7 +341,5 @@ class Transformer(ABC):
         for subset in self.training_data + self.projection_data:
             if subset.smearing is not None:
                 subset.raw = gaussian_filter1d(
-                    subset.raw.astype(np.float64), 
-                    sigma=subset.smearing, 
-                    axis=1
+                    subset.raw.astype(np.float64), sigma=subset.smearing, axis=1
                 )
